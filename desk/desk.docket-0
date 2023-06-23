@@ -1,0 +1,8 @@
+:~  [%title 'Beer']
+    [%info 'B.A. - Before Aera']
+    [%color 0xff.8a70]
+    [%version [0 0 1]]
+    [%website 'https://dalten.org/']
+    [%license 'MIT']
+    [%site /apps/beer]
+==
