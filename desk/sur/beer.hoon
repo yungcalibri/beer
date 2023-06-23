@@ -8,6 +8,11 @@
       %got :: Definitely real, secondhand.
       %gut :: Definitely real, firsthand.
   ==
+
++$  beer-action
+  $%  [%add =ship =beer]
+  ==
+  
 --
 ::  statement
 :: +$  toast

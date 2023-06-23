@@ -3,12 +3,12 @@
 |%
 ::
 +$  versioned-state
-  $%  [%0 =state-0]
+  $%  state-0
   ==
 ::  Our state is a map from @p to beer.
 ::  Only the most recent beer is stored for each @p.
 ::
-+$  state-0  (map @p beer)
++$  state-0  [%0 bar=(map @p beer)]
 ::
 +$  card  card:agent:gall
 --
@@ -56,7 +56,11 @@
   |=  =cage
   ~>  %bout.[0 '%beer +on-poke']
   ^-  (quip card _this)
-  [~ this]
+  ?+    -.cage  !!
+      %beer-action
+    =/  act  !<(beer-action +.cage)
+    `this(bar.state (~(put by bar.state) ship.act beer.act))
+  ==
 ::
 ++  on-peek
   |=  =path
