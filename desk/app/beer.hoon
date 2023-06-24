@@ -1,4 +1,4 @@
-/-  *beer
+/-  *beer, *minaera
 /+  verb, dbug, default-agent
 |%
 ::
@@ -8,9 +8,13 @@
 ::  Our state is a map from @p to beer.
 ::  Only the most recent beer is stored for each @p.
 ::
-+$  state-0  [%0 bar=(map @p beer)]
++$  state-0  [%0 bar=(map @p beer) count=@ud]
 ::
 +$  card  card:agent:gall
+::
+++  minaera-init-card
+|=  =ship
+[%pass /minaera/action %agent [ship %minaera] %poke %aera-action !>([%init-table %beer %beer])]
 --
 ::
 %+  verb  &
@@ -38,7 +42,8 @@
 ++  on-init
   ^-  (quip card _this)
   ~>  %bout.[0 '%beer +on-init']
-  [~ this]
+  :-  ~[(minaera-init-card our.bowl)]
+  this
 ::
 ++  on-save
   ^-  vase
@@ -52,6 +57,18 @@
   =/  new-state=state-0  !<(state-0 old)
   [~ this(state new-state)]
 ::
+::+$  aera-row
+::  $:  id=@ud              count
+::      timestamp=@da       now.bowl
+::      from=@p             our.bowl
+::      to=@p               ship.act
+::      what=@t             ~ 
+::      tag=@tas            beer.act
+::      description=@tas    "Attestation of identity"
+::      app-tag=@tas        %add
+::      event-version=@ud   %0
+::      ~
+::  ==
 ++  on-poke
   |=  =cage
   ~>  %bout.[0 '%beer +on-poke']
@@ -59,7 +76,22 @@
   ?+    -.cage  !!
       %beer-action
     =/  act  !<(beer-action +.cage)
-    `this(bar.state (~(put by bar.state) ship.act beer.act))
+    =/  edge=aera-row
+    :~  count.state
+        now.bowl
+        our.bowl
+        ship.act
+        ''
+        beer.act
+        %'Attestation of identity'
+        %add
+        %0
+    ==
+    =.  count.state  +(count.state)
+    :_  this(bar.state (~(put by bar.state) ship.act beer.act))
+    :~  :*  %pass  /minaera/action  %agent  [our.bowl %minaera]  
+            %poke  %aera-action  !>(`aera-action`[%add-edge %beer %beer edge])
+    ==  ==
   ==
 ::
 ++  on-peek
