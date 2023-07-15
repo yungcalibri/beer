@@ -2,24 +2,24 @@
 |%
 ::  confidence of statement
 +$  beer
-  $?  %gat :: No information. Could be real, or not.
-      %get :: Possibly real, secondhand.
-      %git :: Possibly real, firsthand.
-      %got :: Definitely real, secondhand.
-      %gut :: Definitely real, firsthand.
+  $?  %0 :: Not real
+      %1 :: Real, firsthand.
   ==
-
+::
 +$  beer-action
   $%  [%add =ship =beer]
   ==
-  
+:: 
+++  beer-schema
+:~  [%who [0 | %p]]
+    [%timestamp [1 | %da]]   ::  timestamp ideally provided by event, not timestamp of insertion into database
+    [%score [2 | %ud]]       ::  the actual score
+==
+
++$  beer-row
+  $:  who=@p
+      timestamp=@da
+      score=@ud
+      ~
+  ==
 --
-::  statement
-:: +$  toast
-::   $:
-::       from=@p
-::       to=@p
-::       timestamp=@da
-::       id=@ud
-::       =beer
-::   ==

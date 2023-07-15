@@ -1,6 +1,8 @@
-/-  *beer, *minaera
-/+  verb, dbug, default-agent
+/-  *beer, *minaera, service
+/+  verb, dbug, default-agent, *sss
 |%
+::
+::  Basic reputation service
 ::
 +$  versioned-state
   $%  state-0
@@ -8,24 +10,40 @@
 ::  Our state is a map from @p to beer.
 ::  Only the most recent beer is stored for each @p.
 ::
-+$  state-0  [%0 bar=(map @p beer) count=@ud]
++$  state-0  [%0 bar=(map @p @)]
 ::
 +$  card  card:agent:gall
 ::
 ++  minaera-init-card
 |=  =ship
 [%pass /minaera/action %agent [ship %minaera] %poke %aera-action !>([%init-table %beer %beer])]
+::
+++  info-card
+=/  desc=@t
+'''
+Scale ranging from 0 to 1 inclusive
+  - 0 mean that I haven't met the person.
+  - 1 means that I've met the person.
+'''
+:*  desc=desc
+    type=%discrete
+    aura=%ud
+    min=0
+    max=1
+==
 --
 ::
 %+  verb  &
 %-  agent:dbug
-=|  state=state-0
-::
+=/  pub-service  (mk-pubs service ,[%service *])
+=|  state=state-0 ::
 ^-  agent:gall
 ::
 |_  =bowl:gall
 +*  this  .
     def  ~(. (default-agent this %|) bowl)
+    du-service  =/  du  (du service ,[%service *])
+                  (du pub-service bowl -:!>(*result:du))
 ++  on-fail
   ~>  %bout.[0 '%beer +on-fail']
   on-fail:def
@@ -48,63 +66,72 @@
 ++  on-save
   ^-  vase
   ~>  %bout.[0 '%beer +on-save']
-  !>(state)
+  !>([state pub-service])
 ::
 ++  on-load
-  |=  old=vase
+  |=  =vase
   ~>  %bout.[0 '%beer +on-load']
   ^-  (quip card _this)
-  =/  new-state=state-0  !<(state-0 old)
-  [~ this(state new-state)]
+  =/  old  !<  [state-0 =_pub-service]  vase
+  :-  ~
+  %=    this
+    state     -.old
+    pub-service  pub-service.old
+  ==
 ::
-::+$  aera-row
-::  $:  id=@ud              count
-::      timestamp=@da       now.bowl
-::      from=@p             our.bowl
-::      to=@p               ship.act
-::      what=@t             ~ 
-::      tag=@tas            beer.act
-::      description=@tas    "Attestation of identity"
-::      app-tag=@tas        %add
-::      event-version=@ud   %0
-::      ~
-::  ==
 ++  on-poke
-  |=  =cage
+  |=  [=mark =vase]
   ~>  %bout.[0 '%beer +on-poke']
   ^-  (quip card _this)
-  ?+    -.cage  !!
+  ~&  >>  "%beer: pub-service was: {<read:du-service>}"
+  ?+    mark  !!
       %beer-action
-    =/  act  !<(beer-action +.cage)
-    =/  edge=aera-row
-    :~  count.state
-        now.bowl
-        our.bowl
-        ship.act
-        ''
-        beer.act
-        %'Attestation of identity'
-        %add
-        %0
+    =/  act  !<(beer-action vase)
+    =.  bar.state  (~(put by bar.state) ship.act `@`beer.act)
+    =^  cards  pub-service  (give:du-service [%service %beer ~] [ship.act beer.act])
+    ~&  >  cards
+    [cards this]
+    ::
+      %sss-on-rock
+    `this
+    ::
+      %sss-to-pub
+    ~&  >  beer+sss-to-pub+!<(into:du-service (fled vase))
+    ?-   msg=!<(into:du-service (fled vase))
+        [[%service *] *]
+      =^  cards  pub-service  (apply:du-service msg)
+      ~&  >>  "%beer: pub-service is: {<read:du-service>}"
+      [cards this]
     ==
-    =.  count.state  +(count.state)
-    :_  this(bar.state (~(put by bar.state) ship.act beer.act))
-    :~  :*  %pass  /minaera/action  %agent  [our.bowl %minaera]  
-            %poke  %aera-action  !>(`aera-action`[%add-edge %beer %beer edge])
-    ==  ==
   ==
 ::
 ++  on-peek
   |=  =path
   ~>  %bout.[0 '%beer +on-peek']
   ^-  (unit (unit cage))
-  ~
+  ?+    path  `~
+      [%x %score @ ~]
+    =/  =ship  (slav %p -.+.+.path)
+    ?.  (~(has by bar.state) ship)
+      ``[%noun !>(~)]
+    ``[%noun !>((~(get by bar.state) ship))]
+  ::
+      [%x %card ~]
+    ``[%noun !>(info-card)]
+  ==
 ::
 ++  on-agent
   |=  [=wire =sign:agent:gall]
   ~>  %bout.[0 '%beer +on-agent']
   ^-  (quip card _this)
-  [~ this]
+  ?.  =(%poke-ack -.sign)
+    ~&  >  beer+'bad poke'  `this
+  ?+    wire  `this
+      [~ %sss %scry-response @ @ @ %service *]
+    =^  cards  pub-service  (tell:du-service |3:wire sign)
+    ~&  >  "%beer: pub-service is: {<read:du-service>}"
+    [cards this]
+  ==
 ::
 ++  on-watch
   |=  =path
