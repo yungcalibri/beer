@@ -350,12 +350,10 @@
   ++  tell
     |=  [[ship=term =dude aeon=term path=paths] =sign:agent:gall]
     ^-  (quip card:agent:gall pubs)
-    ~&  >  beer+tell+sign
     ?>  ?=(%poke-ack -.sign)
     ?^  p.sign  `1/pub
     =/  =buoy  (~(gut by pub) path *buoy)
     ?<  &(?=(^ alo.buoy) !(~(has in u.alo.buoy) src.bowl))
-    ~&  >  beer+tell+tid.buoy
     ?@  tid.buoy
       :_  1/pub  :_  ~
       (send tomb/~ src.bowl dude path)
@@ -365,7 +363,6 @@
       :_  1/pub  :_  ~
       (send wave/[aeon u.dat] src.bowl dude path)
     =/  last  (fall (pry:rok rok.tid.buoy) [=key =val]:rok)
-    ~&  >  beer+tell+[aeon key.last]
     ?:  (lte aeon key.last)
       :_  1/pub  :_  ~
       (send rock/last src.bowl dude path)
@@ -381,12 +378,7 @@
   ++  send
     |=  [payload=_|2:*(response:poke lake paths) =ship =dude path=paths]
     ^-  card:agent:gall
-    ~&  >  beer+send+payload
     =*  mark  (cat 3 %sss- name:lake)
-    ~&  >  beer+send+mark
-    ~&  >  beer+send+ship
-    ~&  >  beer+send+dude
-    ~&  >  beer+send+path
     =/  callback=^path
       ?:  ?=(%tomb what.payload)  (zoom tomb-response/(scot %p ship)^dude^path)
       (zoom scry-response/(scot %p ship)^dude^(scot %ud aeon.payload)^path)

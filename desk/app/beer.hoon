@@ -83,24 +83,22 @@ Scale ranging from 0 to 1 inclusive
   |=  [=mark =vase]
   ~>  %bout.[0 '%beer +on-poke']
   ^-  (quip card _this)
-  ~&  >>  "%beer: pub-service was: {<read:du-service>}"
+  ::  ~&  >>  "%beer: pub-service was: {<read:du-service>}"
   ?+    mark  !!
       %beer-action
     =/  act  !<(beer-action vase)
     =.  bar.state  (~(put by bar.state) ship.act `@`beer.act)
     =^  cards  pub-service  (give:du-service [%service %beer ~] [ship.act beer.act])
-    ~&  >  cards
     [cards this]
     ::
       %sss-on-rock
     `this
     ::
       %sss-to-pub
-    ~&  >  beer+sss-to-pub+!<(into:du-service (fled vase))
     ?-   msg=!<(into:du-service (fled vase))
         [[%service *] *]
       =^  cards  pub-service  (apply:du-service msg)
-      ~&  >>  "%beer: pub-service is: {<read:du-service>}"
+      :: ~&  >>  "%beer: pub-service is: {<read:du-service>}"
       [cards this]
     ==
   ==
@@ -129,7 +127,7 @@ Scale ranging from 0 to 1 inclusive
   ?+    wire  `this
       [~ %sss %scry-response @ @ @ %service *]
     =^  cards  pub-service  (tell:du-service |3:wire sign)
-    ~&  >  "%beer: pub-service is: {<read:du-service>}"
+    ::  ~&  >  "%beer: pub-service is: {<read:du-service>}"
     [cards this]
   ==
 ::
