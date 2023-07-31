@@ -87,8 +87,15 @@ Scale ranging from 0 to 1 inclusive
   ?+    mark  !!
       %beer-action
     =/  act  !<(beer-action vase)
-    =.  bar.state  (~(put by bar.state) ship.act `@`beer.act)
-    =^  cards  pub-service  (give:du-service [%service %beer ~] [ship.act beer.act])
+    =.  bar.state
+      ?-    -.act
+          %add
+        (~(put by bar.state) ship.act `@`beer.act)
+      ::
+          %del 
+        (~(del by bar.state) ship.act)
+      ==
+    =^  cards  pub-service  (give:du-service [%service %beer ~] act)
     [cards this]
     ::
       %sss-on-rock

@@ -8,6 +8,7 @@
 ::
 +$  beer-action
   $%  [%add =ship =beer]
+      [%del =ship]
   ==
 :: 
 --
