@@ -121,6 +121,9 @@ Scale ranging from 0 to 1 inclusive
       ``[%noun !>(~)]
     ``[%noun !>((~(get by bar.state) ship))]
   ::
+      [%x %scores ~]
+    ``[%noun !>(bar.state)]
+  ::
       [%x %card ~]
     ``[%noun !>(info-card)]
   ==
